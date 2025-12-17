@@ -5,6 +5,7 @@ edition = "2021"
 description = "A TUI for monitoring NVIDIA GPU metrics"
 license = "BSD-3-Clause"
 authors = ["Alex Jokela"]
+repository = "https://github.com/ajokela/nvidiagpu_top"
 
 [dependencies]
 ratatui = "0.28"
