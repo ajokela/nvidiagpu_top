@@ -108,6 +108,18 @@ impl NvidiaMonitor {
     }
 
     pub async fn spawn() -> Result<(Self, mpsc::Receiver<NvidiaMessage>)> {
+        // Check if nvidia-smi is available
+        let check = Command::new("nvidia-smi")
+            .arg("--version")
+            .output()
+            .await;
+
+        if check.is_err() {
+            anyhow::bail!(
+                "nvidia-smi not found. Please ensure NVIDIA drivers are installed and nvidia-smi is in your PATH."
+            );
+        }
+
         let (tx, rx) = mpsc::channel(200);
 
         // Spawn dmon
