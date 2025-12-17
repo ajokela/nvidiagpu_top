@@ -1,0 +1,14 @@
+[package]
+name = "nvidiagpu_top"
+version = "0.1.0"
+edition = "2021"
+description = "A TUI for monitoring NVIDIA GPU metrics"
+license = "BSD-3-Clause"
+authors = ["Alex Jokela"]
+
+[dependencies]
+ratatui = "0.28"
+crossterm = "0.28"
+tokio = { version = "1", features = ["full"] }
+clap = { version = "4", features = ["derive"] }
+anyhow = "1"
