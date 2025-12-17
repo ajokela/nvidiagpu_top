@@ -174,30 +174,27 @@ pub struct ProcessSystemInfo {
     pub cpu_percent: f32,
     pub rss_kb: u64,        // System RAM in KB
     pub elapsed: String,    // Runtime
-    pub cmdline: String,    // Full command line
 }
 
 impl ProcessSystemInfo {
-    /// Parse output from: ps -p <pids> -o pid,pcpu,rss,etime,args --no-headers
+    /// Parse output from: ps -p <pids> -o pid,pcpu,rss,etime --no-headers
     pub fn parse_ps_line(line: &str) -> Option<Self> {
         let line = line.trim();
         if line.is_empty() {
             return None;
         }
 
-        let mut parts = line.splitn(5, char::is_whitespace);
-        let pid: u32 = parts.next()?.trim().parse().ok()?;
-        let cpu_str = parts.next()?.trim();
-        let rss_str = parts.next()?.trim();
-        let elapsed = parts.next()?.trim().to_string();
-        let cmdline = parts.next().unwrap_or("").trim().to_string();
+        let mut parts = line.split_whitespace();
+        let pid: u32 = parts.next()?.parse().ok()?;
+        let cpu_str = parts.next()?;
+        let rss_str = parts.next()?;
+        let elapsed = parts.next()?.to_string();
 
         Some(Self {
             pid,
             cpu_percent: cpu_str.parse().unwrap_or(0.0),
             rss_kb: rss_str.parse().unwrap_or(0),
             elapsed,
-            cmdline,
         })
     }
 }

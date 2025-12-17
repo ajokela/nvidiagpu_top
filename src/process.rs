@@ -93,7 +93,7 @@ impl NvidiaMonitor {
             .join(",");
 
         let output = Command::new("ps")
-            .args(["-p", &pid_str, "-o", "pid,pcpu,rss,etime,args", "--no-headers"])
+            .args(["-p", &pid_str, "-o", "pid,pcpu,rss,etime", "--no-headers"])
             .output()
             .await
             .context("Failed to run ps")?;

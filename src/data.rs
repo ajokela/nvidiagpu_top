@@ -96,11 +96,9 @@ pub struct EnrichedProcess {
     pub gpu_idx: u32,
     pub vram_mib: u64,          // From compute-apps
     pub sm_util: Option<u32>,   // From pmon (instantaneous)
-    pub mem_util: Option<u32>,  // From pmon (instantaneous)
     pub cpu_percent: f32,       // From ps
     pub rss_mb: u64,            // System RAM from ps
     pub elapsed: String,        // Runtime
-    pub cmdline: String,        // Full command line
 }
 
 /// Data store for all GPUs
@@ -231,11 +229,9 @@ impl DataStore {
                 gpu_idx,
                 vram_mib: app.vram_used_mib,
                 sm_util: pmon.and_then(|p| p.sample.sm_util),
-                mem_util: pmon.and_then(|p| p.sample.mem_util),
                 cpu_percent: sys_info.map(|s| s.cpu_percent).unwrap_or(0.0),
                 rss_mb: sys_info.map(|s| s.rss_kb / 1024).unwrap_or(0),
                 elapsed: sys_info.map(|s| s.elapsed.clone()).unwrap_or_default(),
-                cmdline: sys_info.map(|s| s.cmdline.clone()).unwrap_or_default(),
             };
 
             result.push(enriched);
